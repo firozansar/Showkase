@@ -20,7 +20,7 @@ buildscript {
             'ksp'                    : "$KSP_VERSION",
             'ktx'                    : '1.1.0',
             'lifecycle'              : '2.6.2',
-            'paparazzi'              : '1.2.0',
+            'paparazzi'              : '2.0.0-alpha02',
             'picasso'                : '2.8',
             'appcompat'              : '1.6.1',
             'testRunner'             : '1.4.0',
@@ -90,7 +90,6 @@ buildscript {
         google()
         mavenCentral()
         gradlePluginPortal()
-        jcenter()
     }
     dependencies {
         classpath "com.android.tools.build:gradle:${versions.gradle}"
@@ -114,7 +113,6 @@ allprojects {
     repositories {
         google()
         mavenCentral()
-        jcenter()
     }
     dependencies {
         detektPlugins "io.gitlab.arturbosch.detekt:detekt-formatting:${versions.detekt}"

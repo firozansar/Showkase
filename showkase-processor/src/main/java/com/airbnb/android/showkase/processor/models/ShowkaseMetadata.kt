@@ -8,6 +8,8 @@ import androidx.room.compiler.processing.XMethodElement
 import androidx.room.compiler.processing.XType
 import androidx.room.compiler.processing.XTypeElement
 import androidx.room.compiler.processing.compat.XConverters.toJavac
+import com.airbnb.android.showkase.annotation.ScreenshotCaptureType
+import com.airbnb.android.showkase.annotation.ScreenshotConfig
 import com.airbnb.android.showkase.annotation.ShowkaseColor
 import com.airbnb.android.showkase.annotation.ShowkaseComposable
 import com.airbnb.android.showkase.annotation.ShowkaseMultiPreviewCodegenMetadata
@@ -61,8 +63,11 @@ internal sealed class ShowkaseMetadata {
         val showkaseStyleName: String? = null,
         val isDefaultStyle: Boolean = false,
         val tags: List<String> = emptyList(),
-        val extraMetadata: List<String> = emptyList()
+        val extraMetadata: List<String> = emptyList(),
+        val screenshotConfig: ScreenshotConfig = ScreenshotConfig.SingleStaticImage,
     ) : ShowkaseMetadata()
+
+
 
     data class Color(
         override val element: XElement,
@@ -141,7 +146,21 @@ internal fun getShowkaseMetadata(
         val showkaseStyleName = getShowkaseStyleName(annotation.getAsString("styleName"), isDefaultStyle)
         val tags = annotation.getAsStringList("tags")
         val extraMetadata = annotation.getAsStringList("extraMetadata")
+        val screenshotCaptureType = ScreenshotCaptureType.valueOf(annotation.getAsEnum(ShowkaseComposable::screenshotCaptureType.name).name)
+        val gifDurationMillis = annotation.getAsInt(ShowkaseComposable::captureDurationMillis.name)
+        val gifFramerate = annotation.getAsInt(ShowkaseComposable::captureFramerate.name)
+        val animationOffsetsMillis = annotation.getAsIntList(ShowkaseComposable::captureOffsetsMillis.name)
 
+        val screenshotConfig = when (screenshotCaptureType) {
+            ScreenshotCaptureType.SingleStaticImage -> ScreenshotConfig.SingleStaticImage
+            ScreenshotCaptureType.MultipleImagesAtOffsets -> ScreenshotConfig.MultipleImagesAtOffsets(
+                offsetMillis = animationOffsetsMillis,
+            )
+            ScreenshotCaptureType.SingleAnimatedImage -> ScreenshotConfig.SingleAnimatedImage(
+                durationMillis = gifDurationMillis,
+                framerate = gifFramerate,
+            )
+        }
         ShowkaseMetadata.Component(
             packageSimpleName = commonMetadata.moduleName,
             packageName = commonMetadata.packageName,
@@ -161,7 +180,8 @@ internal fun getShowkaseMetadata(
             isDefaultStyle = isDefaultStyle,
             componentIndex = showkaseAnnotations.indexOf(annotation),
             tags = tags,
-            extraMetadata = extraMetadata
+            extraMetadata = extraMetadata,
+            screenshotConfig = screenshotConfig,
         )
     }
 }
@@ -324,6 +344,7 @@ internal fun getShowkaseMetadata(
     } else {
         customPreviewMetadata.showkaseWidth
     }
+
     return ShowkaseMetadata.Component(
         element = xElement,
         elementName = xElement.name,

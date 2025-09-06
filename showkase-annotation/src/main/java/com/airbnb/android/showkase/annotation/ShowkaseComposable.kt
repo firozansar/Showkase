@@ -74,4 +74,49 @@ annotation class ShowkaseComposable(
     val defaultStyle: Boolean = false,
     val tags: Array<String> = [],
     val extraMetadata: Array<String> = [],
+    /**
+     * Used by Paparazzi snapshot testing to determine if the component has any animation, and how to capture
+     * the screenshot.
+     */
+    val screenshotCaptureType: ScreenshotCaptureType = ScreenshotCaptureType.SingleStaticImage,
+    /**
+     * Used by Paparazzi screenshot testing when [screenshotCaptureType] is set to [ScreenshotCaptureType.SingleAnimatedImage].
+     * Determines the duration the animation will be played in milliseconds.
+     */
+    val captureDurationMillis: Int = 1000,
+    /**
+     * Used by Paparazzi screenshot testing when [screenshotCaptureType] is set to [ScreenshotCaptureType.SingleAnimatedImage].
+     * Determines how many frames will be captured per second.
+     */
+    val captureFramerate: Int = 30,
+    /**
+     * Used by Paparazzi screenshot testing when [screenshotCaptureType] is set to [ScreenshotCaptureType.MultipleImagesAtOffsets].
+     * One separate screenshot will be taken at each of the time offsets provided here.
+     */
+    val captureOffsetsMillis: IntArray = [0, 200, 400, 600, 800, 1000],
 )
+
+/**
+ * Indicates how screenshots should be captured for the given Composable during testing.
+ * Maps to the [ScreenshotConfig] type, which we cannot use as a value in an annotation.
+ */
+enum class ScreenshotCaptureType {
+    /**
+     * A single screenshot will be captured of the initial composition.
+     */
+    SingleStaticImage,
+
+    /**
+     * An animated PNG will be captured of the Composable, using the values provided for
+     * [ShowkaseComposable.captureDurationMillis] and [ShowkaseComposable.captureFramerate].
+     */
+    SingleAnimatedImage,
+
+    /**
+     * Multiple static screenshots will be taken of the Composable, with the animation advanced to the
+     * time offsets provided in [ShowkaseComposable.captureOffsetsMillis].
+     *
+     * NOTE: This isn't working currently in Paparazzi, see https://github.com/cashapp/paparazzi/pull/1645.
+     */
+    MultipleImagesAtOffsets
+}
