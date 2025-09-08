@@ -80,18 +80,21 @@ annotation class ShowkaseComposable(
      */
     val screenshotCaptureType: ScreenshotCaptureType = ScreenshotCaptureType.SingleStaticImage,
     /**
-     * Used by Paparazzi screenshot testing when [screenshotCaptureType] is set to [ScreenshotCaptureType.SingleAnimatedImage].
-     * Determines the duration the animation will be played in milliseconds.
+     * Used by Paparazzi screenshot testing when [screenshotCaptureType] is set to
+     * [ScreenshotCaptureType.SingleAnimatedImage]. Determines the duration the animation
+     * will be played in milliseconds.
      */
     val captureDurationMillis: Int = 1000,
     /**
-     * Used by Paparazzi screenshot testing when [screenshotCaptureType] is set to [ScreenshotCaptureType.SingleAnimatedImage].
-     * Determines how many frames will be captured per second.
+     * Used by Paparazzi screenshot testing when [screenshotCaptureType] is set to
+     * [ScreenshotCaptureType.SingleAnimatedImage]. Determines how many frames
+     * will be captured per second.
      */
     val captureFramerate: Int = 30,
     /**
-     * Used by Paparazzi screenshot testing when [screenshotCaptureType] is set to [ScreenshotCaptureType.MultipleImagesAtOffsets].
-     * One separate screenshot will be taken at each of the time offsets provided here.
+     * Used by Paparazzi screenshot testing when [screenshotCaptureType] is set to
+     * [ScreenshotCaptureType.MultipleImagesAtOffsets]. One separate screenshot will be taken
+     * at each of the time offsets provided here.
      */
     val captureOffsetsMillis: IntArray = [0, 200, 400, 600, 800, 1000],
 )
