@@ -88,9 +88,10 @@ annotation class ShowkaseComposable(
     /**
      * Used by Paparazzi screenshot testing when [screenshotCaptureType] is set to
      * [ScreenshotCaptureType.SingleAnimatedImage]. Determines how many frames
-     * will be captured per second.
+     * will be captured per second. 10 fps is chosen as a default to balance fidelity, file size, test
+     * execution time, and flakiness.
      */
-    val captureFramerate: Int = 30,
+    val captureFramerate: Int = 10,
     /**
      * Used by Paparazzi screenshot testing when [screenshotCaptureType] is set to
      * [ScreenshotCaptureType.MultipleImagesAtOffsets]. One separate screenshot will be taken
