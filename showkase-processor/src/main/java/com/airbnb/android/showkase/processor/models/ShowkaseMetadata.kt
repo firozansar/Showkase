@@ -67,8 +67,6 @@ internal sealed class ShowkaseMetadata {
         val screenshotConfig: ScreenshotConfig = ScreenshotConfig.SingleStaticImage,
     ) : ShowkaseMetadata()
 
-
-
     data class Color(
         override val element: XElement,
         override val packageSimpleName: String,
@@ -146,7 +144,9 @@ internal fun getShowkaseMetadata(
         val showkaseStyleName = getShowkaseStyleName(annotation.getAsString("styleName"), isDefaultStyle)
         val tags = annotation.getAsStringList("tags")
         val extraMetadata = annotation.getAsStringList("extraMetadata")
-        val screenshotCaptureType = ScreenshotCaptureType.valueOf(annotation.getAsEnum(ShowkaseComposable::screenshotCaptureType.name).name)
+        val screenshotCaptureType = ScreenshotCaptureType.valueOf(
+            annotation.getAsEnum(ShowkaseComposable::screenshotCaptureType.name).name
+        )
         val gifDurationMillis = annotation.getAsInt(ShowkaseComposable::captureDurationMillis.name)
         val gifFramerate = annotation.getAsInt(ShowkaseComposable::captureFramerate.name)
         val animationOffsetsMillis = annotation.getAsIntList(ShowkaseComposable::captureOffsetsMillis.name)
