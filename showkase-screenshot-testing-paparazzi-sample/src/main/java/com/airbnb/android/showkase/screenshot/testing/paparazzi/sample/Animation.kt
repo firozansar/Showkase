@@ -26,16 +26,26 @@ import com.airbnb.android.showkase.annotation.ShowkaseComposable
     group = "Animated",
     defaultStyle = true,
     screenshotCaptureType = ScreenshotCaptureType.SingleAnimatedImage,
-    captureDurationMillis = 2000
+    captureDurationMillis = 2000,
 )
 @Composable
 fun BoxWithAnimatedOffsetPreview() {
     var isOffsetToRight by remember { mutableStateOf(false) }
-    val offset by animateDpAsState(if (isOffsetToRight ) 200.dp else 0.dp,
+    val offset by animateDpAsState(
+        if (isOffsetToRight) 200.dp else 0.dp,
         animationSpec = tween(2000)
     )
-    Box(Modifier.width(300.dp).border(1.dp, Color.Blue)) {
-        Spacer(Modifier.offset(x = offset).size(40.dp).background(Color.Red))
+    Box(
+        Modifier
+            .width(300.dp)
+            .border(1.dp, Color.Blue)
+    ) {
+        Spacer(
+            Modifier
+                .offset(x = offset)
+                .size(40.dp)
+                .background(Color.Red)
+        )
     }
 
     LaunchedEffect(Unit) {
