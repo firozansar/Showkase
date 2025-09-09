@@ -112,9 +112,18 @@ interface PaparazziShowkaseScreenshotTest {
          when (captureType) {
              ScreenshotConfig.SingleStaticImage -> paparazzi.snapshot(hostView)
              is ScreenshotConfig.MultipleImagesAtOffsets -> captureType.offsetMillis.forEach { offsetMs ->
-                 paparazzi.snapshot(hostView, name = "${offsetMs}ms", offsetMillis = offsetMs.toLong())
+                 paparazzi.snapshot(
+                     hostView,
+                     name = "${offsetMs}ms",
+                     offsetMillis = offsetMs.toLong()
+                 )
              }
-             is ScreenshotConfig.SingleAnimatedImage -> paparazzi.gif(view = hostView, end = captureType.durationMillis.toLong(), fps = captureType.framerate)
+
+             is ScreenshotConfig.SingleAnimatedImage -> paparazzi.gif(
+                 view = hostView,
+                 end = captureType.durationMillis.toLong(),
+                 fps = captureType.framerate
+             )
          }
     }
 
