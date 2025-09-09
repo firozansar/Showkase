@@ -2,6 +2,7 @@
 package ShowkaseProcessorTest.private_composable_with_showkase_annotation_and_skipPrivate_option_compiles_ok.input
 
 import androidx.compose.runtime.Composable
+import com.airbnb.android.showkase.`annotation`.ScreenshotConfig
 import com.airbnb.android.showkase.models.ShowkaseBrowserComponent
 
 public val TestComposable3group3name3: ShowkaseBrowserComponent = ShowkaseBrowserComponent(
@@ -11,6 +12,7 @@ public val TestComposable3group3name3: ShowkaseBrowserComponent = ShowkaseBrowse
         componentKey =
             """ShowkaseProcessorTest.private_composable_with_showkase_annotation_and_skipPrivate_option_compiles_ok.input.Composables_TestComposable3_ShowkaseProcessorTest.private_composable_with_showkase_annotation_and_skipPrivate_option_compiles_ok.input.Composables_group3_name3_0_null""",
         isDefaultStyle = false,
+        screenshotConfig = ScreenshotConfig.SingleStaticImage,
         component = @Composable {
             Composables().TestComposable3()
         }

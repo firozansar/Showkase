@@ -19,7 +19,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(TestParameterInjector::class)
-public class MyPaparazziScreenshotTest_PaparazziShowkaseTest : MyPaparazziScreenshotTest() {
+public class MyPaparazziScreenshotTestImpl : MyPaparazziScreenshotTest() {
   @get:Rule
   public val paparazzi: Paparazzi = providePaparazzi()
 
@@ -35,7 +35,7 @@ public class MyPaparazziScreenshotTest_PaparazziShowkaseTest : MyPaparazziScreen
         uiMode: PaparazziShowkaseUIMode,
   ) {
     paparazzi.unsafeUpdateConfig(config.deviceConfig.copy(softButtons = false))
-    takePaparazziSnapshot(paparazzi, elementPreview, direction, uiMode)
+    takePaparazziSnapshot(paparazzi, elementPreview, direction, uiMode, elementPreview.captureType)
   }
 
   @Suppress("DEPRECATION")

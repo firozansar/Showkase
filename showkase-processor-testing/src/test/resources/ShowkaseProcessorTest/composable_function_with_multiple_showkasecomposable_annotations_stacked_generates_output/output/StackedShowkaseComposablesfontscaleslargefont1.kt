@@ -2,6 +2,7 @@
 package com.airbnb.android.showkase_processor_testing
 
 import androidx.compose.runtime.Composable
+import com.airbnb.android.showkase.`annotation`.ScreenshotConfig
 import com.airbnb.android.showkase.models.ShowkaseBrowserComponent
 
 public val StackedShowkaseComposablesfontscaleslargefont1: ShowkaseBrowserComponent =
@@ -14,5 +15,6 @@ public val StackedShowkaseComposablesfontscaleslargefont1: ShowkaseBrowserCompon
         isDefaultStyle = false,
         widthDp = 200,
         heightDp = 200,
+        screenshotConfig = ScreenshotConfig.SingleStaticImage,
         component = @Composable { StackedShowkaseComposables() }
     )
