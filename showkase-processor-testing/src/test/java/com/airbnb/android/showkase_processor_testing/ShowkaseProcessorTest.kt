@@ -619,4 +619,9 @@ class ShowkaseProcessorTest : BaseProcessorTest() {
         options["requireShowkaseComposableAnnotation"] = "true"
         compileInputsAndVerifyOutputs(options = options)
     }
+
+    @Test
+    fun `composable function with showkase annotation with capturetype compiles ok`() {
+        compileInputsAndVerifyOutputs()
+    }
 }
