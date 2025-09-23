@@ -145,28 +145,7 @@ internal fun getShowkaseMetadata(
         val showkaseStyleName = getShowkaseStyleName(annotation.getAsString("styleName"), isDefaultStyle)
         val tags = annotation.getAsStringList("tags")
         val extraMetadata = annotation.getAsStringList("extraMetadata")
-        val screenshotCaptureConfig =
-            annotation.getAsAnnotation(ShowkaseComposable::screenshotCaptureConfig.name)
-        val screenshotCaptureType = ScreenshotCaptureType.valueOf(
-            screenshotCaptureConfig.getAsEnum(ScreenshotCaptureConfig::type.name).name
-        )
-        val gifDurationMillis =
-            screenshotCaptureConfig.getAsInt(ScreenshotCaptureConfig::durationMillis.name)
-        val gifFramerate =
-            screenshotCaptureConfig.getAsInt(ScreenshotCaptureConfig::framerate.name)
-        val animationOffsetsMillis =
-            screenshotCaptureConfig.getAsIntList(ScreenshotCaptureConfig::offsetsMillis.name)
-
-        val screenshotConfig = when (screenshotCaptureType) {
-            ScreenshotCaptureType.SingleStaticImage -> ScreenshotConfig.SingleStaticImage
-            ScreenshotCaptureType.MultipleImagesAtOffsets -> ScreenshotConfig.MultipleImagesAtOffsets(
-                offsetMillis = animationOffsetsMillis,
-            )
-            ScreenshotCaptureType.SingleAnimatedImage -> ScreenshotConfig.SingleAnimatedImage(
-                durationMillis = gifDurationMillis,
-                framerate = gifFramerate,
-            )
-        }
+        val screenshotConfig = screenshotConfigFrom(annotation)
         ShowkaseMetadata.Component(
             packageSimpleName = commonMetadata.moduleName,
             packageName = commonMetadata.packageName,
@@ -190,6 +169,33 @@ internal fun getShowkaseMetadata(
             screenshotConfig = screenshotConfig,
         )
     }
+}
+
+private fun screenshotConfigFrom(annotation: XAnnotation): ScreenshotConfig {
+    val screenshotCaptureConfig =
+        annotation.getAsAnnotation(ShowkaseComposable::screenshotCaptureConfig.name)
+    val screenshotCaptureType = ScreenshotCaptureType.valueOf(
+        screenshotCaptureConfig.getAsEnum(ScreenshotCaptureConfig::type.name).name
+    )
+    val gifDurationMillis =
+        screenshotCaptureConfig.getAsInt(ScreenshotCaptureConfig::durationMillis.name)
+    val gifFramerate =
+        screenshotCaptureConfig.getAsInt(ScreenshotCaptureConfig::framerate.name)
+    val animationOffsetsMillis =
+        screenshotCaptureConfig.getAsIntList(ScreenshotCaptureConfig::offsetsMillis.name)
+
+    val screenshotConfig = when (screenshotCaptureType) {
+        ScreenshotCaptureType.SingleStaticImage -> ScreenshotConfig.SingleStaticImage
+        ScreenshotCaptureType.MultipleImagesAtOffsets -> ScreenshotConfig.MultipleImagesAtOffsets(
+            offsetMillis = animationOffsetsMillis,
+        )
+
+        ScreenshotCaptureType.SingleAnimatedImage -> ScreenshotConfig.SingleAnimatedImage(
+            durationMillis = gifDurationMillis,
+            framerate = gifFramerate,
+        )
+    }
+    return screenshotConfig
 }
 
 internal fun XMethodElement.extractCommonMetadata(showkaseValidator: ShowkaseValidator): CommonMetadata {
