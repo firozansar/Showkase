@@ -29,7 +29,6 @@ import com.airbnb.android.showkase.annotation.ShowkaseComposable
     screenshotCaptureConfig = ScreenshotCaptureConfig(
         type = ScreenshotCaptureType.SingleAnimatedImage,
         durationMillis = 2000,
-        framerate = 60,
     ),
 )
 @Composable
