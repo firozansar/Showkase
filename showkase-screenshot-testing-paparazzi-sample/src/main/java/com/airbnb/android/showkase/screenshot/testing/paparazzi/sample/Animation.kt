@@ -18,6 +18,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.airbnb.android.showkase.annotation.ScreenshotCaptureConfig
 import com.airbnb.android.showkase.annotation.ScreenshotCaptureType
 import com.airbnb.android.showkase.annotation.ShowkaseComposable
 
@@ -25,16 +26,24 @@ import com.airbnb.android.showkase.annotation.ShowkaseComposable
     name = "AnimatedOffset",
     group = "Animated",
     defaultStyle = true,
-    screenshotCaptureType = ScreenshotCaptureType.SingleAnimatedImage,
-    captureDurationMillis = 2000,
+    screenshotCaptureConfig = ScreenshotCaptureConfig(
+        type = ScreenshotCaptureType.SingleAnimatedImage,
+        durationMillis = 2000,
+        framerate = 60,
+    ),
 )
 @Composable
 fun BoxWithAnimatedOffsetPreview() {
+    // This code triggers an animation in this preview
     var isOffsetToRight by remember { mutableStateOf(false) }
     val offset by animateDpAsState(
         if (isOffsetToRight) 200.dp else 0.dp,
         animationSpec = tween(2000)
     )
+    LaunchedEffect(Unit) {
+        isOffsetToRight = true
+    }
+
     Box(
         Modifier
             .width(300.dp)
@@ -46,9 +55,5 @@ fun BoxWithAnimatedOffsetPreview() {
                 .size(40.dp)
                 .background(Color.Red)
         )
-    }
-
-    LaunchedEffect(Unit) {
-        isOffsetToRight = true
     }
 }

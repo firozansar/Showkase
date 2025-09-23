@@ -148,14 +148,14 @@ internal fun getShowkaseMetadata(
         val screenshotCaptureConfig =
             annotation.getAsAnnotation(ShowkaseComposable::screenshotCaptureConfig.name)
         val screenshotCaptureType = ScreenshotCaptureType.valueOf(
-            screenshotCaptureConfig.getAsEnum(ScreenshotCaptureConfig::screenshotCaptureType.name).name
+            screenshotCaptureConfig.getAsEnum(ScreenshotCaptureConfig::type.name).name
         )
         val gifDurationMillis =
-            screenshotCaptureConfig.getAsInt(ScreenshotCaptureConfig::captureDurationMillis.name)
+            screenshotCaptureConfig.getAsInt(ScreenshotCaptureConfig::durationMillis.name)
         val gifFramerate =
-            screenshotCaptureConfig.getAsInt(ScreenshotCaptureConfig::captureFramerate.name)
+            screenshotCaptureConfig.getAsInt(ScreenshotCaptureConfig::framerate.name)
         val animationOffsetsMillis =
-            screenshotCaptureConfig.getAsIntList(ScreenshotCaptureConfig::captureOffsetsMillis.name)
+            screenshotCaptureConfig.getAsIntList(ScreenshotCaptureConfig::offsetsMillis.name)
 
         val screenshotConfig = when (screenshotCaptureType) {
             ScreenshotCaptureType.SingleStaticImage -> ScreenshotConfig.SingleStaticImage

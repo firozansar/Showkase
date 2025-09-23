@@ -87,26 +87,26 @@ annotation class ScreenshotCaptureConfig(
      * Used by Paparazzi snapshot testing to determine if the component has any animation, and how to capture
      * the screenshot.
      */
-    val screenshotCaptureType: ScreenshotCaptureType = ScreenshotCaptureType.SingleStaticImage,
+    val type: ScreenshotCaptureType = ScreenshotCaptureType.SingleStaticImage,
     /**
-     * Used by Paparazzi screenshot testing when [screenshotCaptureType] is set to
+     * Used by Paparazzi screenshot testing when [type] is set to
      * [ScreenshotCaptureType.SingleAnimatedImage]. Determines the duration the animation
      * will be played in milliseconds.
      */
-    val captureDurationMillis: Int = 1000,
+    val durationMillis: Int = 1000,
     /**
-     * Used by Paparazzi screenshot testing when [screenshotCaptureType] is set to
+     * Used by Paparazzi screenshot testing when [type] is set to
      * [ScreenshotCaptureType.SingleAnimatedImage]. Determines how many frames
      * will be captured per second. 10 fps is chosen as a default to balance fidelity, file size, test
      * execution time, and flakiness.
      */
-    val captureFramerate: Int = 10,
+    val framerate: Int = 10,
     /**
-     * Used by Paparazzi screenshot testing when [screenshotCaptureType] is set to
+     * Used by Paparazzi screenshot testing when [type] is set to
      * [ScreenshotCaptureType.MultipleImagesAtOffsets]. One separate screenshot will be taken
      * at each of the time offsets provided here.
      */
-    val captureOffsetsMillis: IntArray = [0, 200, 400, 600, 800, 1000],
+    val offsetsMillis: IntArray = [0, 200, 400, 600, 800, 1000],
 )
 
 /**
