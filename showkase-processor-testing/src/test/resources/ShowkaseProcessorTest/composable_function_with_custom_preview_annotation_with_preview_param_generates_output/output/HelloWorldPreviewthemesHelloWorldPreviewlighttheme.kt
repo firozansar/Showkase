@@ -2,6 +2,7 @@
 package com.airbnb.android.showkase_processor_testing
 
 import androidx.compose.runtime.Composable
+import com.airbnb.android.showkase.`annotation`.ScreenshotConfig
 import com.airbnb.android.showkase.models.ShowkaseBrowserComponent
 import kotlin.collections.List
 
@@ -18,6 +19,7 @@ public val HelloWorldPreviewthemesHelloWorldPreviewlighttheme: List<ShowkaseBrow
                     componentKey =
                         """com.airbnb.android.showkase_processor_testing_HelloWorldPreview_null_themes_HelloWorldPreview-lighttheme_0_null_$index""",
                     isDefaultStyle = false,
+                    screenshotConfig = ScreenshotConfig.SingleStaticImage,
                     component = @Composable { HelloWorldPreview(text = previewParam) }
                 )
         }

@@ -2,6 +2,7 @@
 package com.airbnb.android.showkase_browser_testing
 
 import androidx.compose.runtime.Composable
+import com.airbnb.android.showkase.`annotation`.ScreenshotConfig
 import com.airbnb.android.showkase.models.ShowkaseBrowserComponent
 import kotlin.collections.List
 
@@ -19,6 +20,7 @@ public val TestComposable2Group1Composable2Usageofacharpreviewparameterprovider:
                     componentKey =
                         """com.airbnb.android.showkase_browser_testing_TestComposable2_null_Group1_Composable2Usageofacharpreviewparameterprovider_0_null_$index""",
                     isDefaultStyle = false,
+                    screenshotConfig = ScreenshotConfig.SingleStaticImage,
                     component = @Composable { TestComposable2(c = previewParam) }
                 )
         }

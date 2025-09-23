@@ -2,6 +2,7 @@
 package com.airbnb.android.showkase_processor_testing
 
 import androidx.compose.runtime.Composable
+import com.airbnb.android.showkase.`annotation`.ScreenshotConfig
 import com.airbnb.android.showkase.models.ShowkaseBrowserComponent
 
 public val Componentcomponentgroupcomponent: ShowkaseBrowserComponent = ShowkaseBrowserComponent(
@@ -11,6 +12,7 @@ public val Componentcomponentgroupcomponent: ShowkaseBrowserComponent = Showkase
         componentKey =
             """com.airbnb.android.showkase_processor_testing.Composables_Component_com.airbnb.android.showkase_processor_testing.Composables_component-group_component_0_null""",
         isDefaultStyle = false,
+        screenshotConfig = ScreenshotConfig.SingleStaticImage,
         component = @Composable {
             Composables().Component()
         }

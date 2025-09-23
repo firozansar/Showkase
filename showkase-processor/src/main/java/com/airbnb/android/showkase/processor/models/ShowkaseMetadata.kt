@@ -8,6 +8,9 @@ import androidx.room.compiler.processing.XMethodElement
 import androidx.room.compiler.processing.XType
 import androidx.room.compiler.processing.XTypeElement
 import androidx.room.compiler.processing.compat.XConverters.toJavac
+import com.airbnb.android.showkase.annotation.ScreenshotCaptureConfig
+import com.airbnb.android.showkase.annotation.ScreenshotCaptureType
+import com.airbnb.android.showkase.annotation.ScreenshotConfig
 import com.airbnb.android.showkase.annotation.ShowkaseColor
 import com.airbnb.android.showkase.annotation.ShowkaseComposable
 import com.airbnb.android.showkase.annotation.ShowkaseMultiPreviewCodegenMetadata
@@ -61,7 +64,8 @@ internal sealed class ShowkaseMetadata {
         val showkaseStyleName: String? = null,
         val isDefaultStyle: Boolean = false,
         val tags: List<String> = emptyList(),
-        val extraMetadata: List<String> = emptyList()
+        val extraMetadata: List<String> = emptyList(),
+        val screenshotConfig: ScreenshotConfig = ScreenshotConfig.SingleStaticImage,
     ) : ShowkaseMetadata()
 
     data class Color(
@@ -141,7 +145,7 @@ internal fun getShowkaseMetadata(
         val showkaseStyleName = getShowkaseStyleName(annotation.getAsString("styleName"), isDefaultStyle)
         val tags = annotation.getAsStringList("tags")
         val extraMetadata = annotation.getAsStringList("extraMetadata")
-
+        val screenshotConfig = screenshotConfigFrom(annotation)
         ShowkaseMetadata.Component(
             packageSimpleName = commonMetadata.moduleName,
             packageName = commonMetadata.packageName,
@@ -161,9 +165,37 @@ internal fun getShowkaseMetadata(
             isDefaultStyle = isDefaultStyle,
             componentIndex = showkaseAnnotations.indexOf(annotation),
             tags = tags,
-            extraMetadata = extraMetadata
+            extraMetadata = extraMetadata,
+            screenshotConfig = screenshotConfig,
         )
     }
+}
+
+private fun screenshotConfigFrom(annotation: XAnnotation): ScreenshotConfig {
+    val screenshotCaptureConfig =
+        annotation.getAsAnnotation(ShowkaseComposable::screenshotCaptureConfig.name)
+    val screenshotCaptureType = ScreenshotCaptureType.valueOf(
+        screenshotCaptureConfig.getAsEnum(ScreenshotCaptureConfig::type.name).name
+    )
+    val gifDurationMillis =
+        screenshotCaptureConfig.getAsInt(ScreenshotCaptureConfig::durationMillis.name)
+    val gifFramerate =
+        screenshotCaptureConfig.getAsInt(ScreenshotCaptureConfig::framerate.name)
+    val animationOffsetsMillis =
+        screenshotCaptureConfig.getAsIntList(ScreenshotCaptureConfig::offsetsMillis.name)
+
+    val screenshotConfig = when (screenshotCaptureType) {
+        ScreenshotCaptureType.SingleStaticImage -> ScreenshotConfig.SingleStaticImage
+        ScreenshotCaptureType.MultipleImagesAtOffsets -> ScreenshotConfig.MultipleImagesAtOffsets(
+            offsetMillis = animationOffsetsMillis,
+        )
+
+        ScreenshotCaptureType.SingleAnimatedImage -> ScreenshotConfig.SingleAnimatedImage(
+            durationMillis = gifDurationMillis,
+            framerate = gifFramerate,
+        )
+    }
+    return screenshotConfig
 }
 
 internal fun XMethodElement.extractCommonMetadata(showkaseValidator: ShowkaseValidator): CommonMetadata {
@@ -324,6 +356,7 @@ internal fun getShowkaseMetadata(
     } else {
         customPreviewMetadata.showkaseWidth
     }
+
     return ShowkaseMetadata.Component(
         element = xElement,
         elementName = xElement.name,
