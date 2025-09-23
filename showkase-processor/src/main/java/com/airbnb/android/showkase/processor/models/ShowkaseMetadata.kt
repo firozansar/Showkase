@@ -8,6 +8,7 @@ import androidx.room.compiler.processing.XMethodElement
 import androidx.room.compiler.processing.XType
 import androidx.room.compiler.processing.XTypeElement
 import androidx.room.compiler.processing.compat.XConverters.toJavac
+import com.airbnb.android.showkase.annotation.ScreenshotCaptureConfig
 import com.airbnb.android.showkase.annotation.ScreenshotCaptureType
 import com.airbnb.android.showkase.annotation.ScreenshotConfig
 import com.airbnb.android.showkase.annotation.ShowkaseColor
@@ -144,12 +145,17 @@ internal fun getShowkaseMetadata(
         val showkaseStyleName = getShowkaseStyleName(annotation.getAsString("styleName"), isDefaultStyle)
         val tags = annotation.getAsStringList("tags")
         val extraMetadata = annotation.getAsStringList("extraMetadata")
+        val screenshotCaptureConfig =
+            annotation.getAsAnnotation(ShowkaseComposable::screenshotCaptureConfig.name)
         val screenshotCaptureType = ScreenshotCaptureType.valueOf(
-            annotation.getAsEnum(ShowkaseComposable::screenshotCaptureType.name).name
+            screenshotCaptureConfig.getAsEnum(ScreenshotCaptureConfig::screenshotCaptureType.name).name
         )
-        val gifDurationMillis = annotation.getAsInt(ShowkaseComposable::captureDurationMillis.name)
-        val gifFramerate = annotation.getAsInt(ShowkaseComposable::captureFramerate.name)
-        val animationOffsetsMillis = annotation.getAsIntList(ShowkaseComposable::captureOffsetsMillis.name)
+        val gifDurationMillis =
+            screenshotCaptureConfig.getAsInt(ScreenshotCaptureConfig::captureDurationMillis.name)
+        val gifFramerate =
+            screenshotCaptureConfig.getAsInt(ScreenshotCaptureConfig::captureFramerate.name)
+        val animationOffsetsMillis =
+            screenshotCaptureConfig.getAsIntList(ScreenshotCaptureConfig::captureOffsetsMillis.name)
 
         val screenshotConfig = when (screenshotCaptureType) {
             ScreenshotCaptureType.SingleStaticImage -> ScreenshotConfig.SingleStaticImage

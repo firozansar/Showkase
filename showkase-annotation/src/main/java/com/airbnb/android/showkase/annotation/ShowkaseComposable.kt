@@ -74,6 +74,15 @@ annotation class ShowkaseComposable(
     val defaultStyle: Boolean = false,
     val tags: Array<String> = [],
     val extraMetadata: Array<String> = [],
+    val screenshotCaptureConfig: ScreenshotCaptureConfig = ScreenshotCaptureConfig(),
+)
+
+/**
+ * Wrapper annotation class for grouping values related to screenshot capture configuration.
+ * This will be converted to a [ScreenshotConfig] instance for downstream processing.
+ */
+@Retention(AnnotationRetention.SOURCE)
+annotation class ScreenshotCaptureConfig(
     /**
      * Used by Paparazzi snapshot testing to determine if the component has any animation, and how to capture
      * the screenshot.
