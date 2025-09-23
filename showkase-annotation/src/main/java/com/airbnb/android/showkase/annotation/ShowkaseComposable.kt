@@ -58,6 +58,7 @@ package com.airbnb.android.showkase.annotation
  * but are still available in the generated `ShowkaseBrowserComponent` object. This may be useful when
  * extra data is needed for attributing components during other processes (e.g. static analysis,
  * displaying attributions in a custom component browser).
+ * @param screenshotCaptureConfig Configures how screenshot tests should capture the Composable content.
  */
 @MustBeDocumented
 @Retention(AnnotationRetention.SOURCE)
@@ -74,7 +75,13 @@ annotation class ShowkaseComposable(
     val defaultStyle: Boolean = false,
     val tags: Array<String> = [],
     val extraMetadata: Array<String> = [],
-    val screenshotCaptureConfig: ScreenshotCaptureConfig = ScreenshotCaptureConfig(),
+    val screenshotCaptureConfig: ScreenshotCaptureConfig = ScreenshotCaptureConfig(
+        // Need to specify default values here or else KAPT throws an error
+        type = ScreenshotCaptureType.SingleStaticImage,
+        durationMillis = 1000,
+        framerate = 10,
+        offsetsMillis = [0, 200, 400, 600, 800, 1000],
+    ),
 )
 
 /**
